@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Spinner -->
+    <Spinner
+        android:id="@+id/planets_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Pierwszy ListView (tylko nazwy) -->
+    <ListView
+        android:id="@+id/planets_listview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Wartość SeekBar w zwykłym TextView -->
+    <TextView
+        android:id="@+id/seekValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- SeekBar z min i max po bokach -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/minValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginEnd="8dp"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:max="100"/>
+
+        <TextView
+            android:id="@+id/maxValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <!-- CheckBox -->
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aktywuj"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- RadioGroup -->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opcja 1"/>
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opcja 2"/>
+    </RadioGroup>
+
+    <!-- Button -->
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dodaj do listy"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Wynikowa ListView -->
+    <ListView
+        android:id="@+id/result_listview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
+</LinearLayout>
