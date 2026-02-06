@@ -1,0 +1,131 @@
+package com.onaar.samochod;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    Spinner spinner;
+    ListView listView;
+    ListView summary;
+    EditText editTextRocznik;
+    SeekBar seekBar;
+    CheckBox checkBox;
+    RadioGroup radioGroup;
+    Button button;
+
+    ArrayAdapter<String> listAdapter;
+    ArrayAdapter<String> summaryAdapter;
+    ArrayList<String> summaryList = new ArrayList<>();
+
+    String selectedModel = "";
+
+    String[] Chevrolet = {"G506", "Trax", "Trailblazer"};
+    String[] Humvee = {"common M998", "armed M1025/M1046", "heavy-duty M1097/M1123"};
+    String[] UAZ = {"UAZ Hunter", "UAZ-452", "UAZ-469"};
+    String[] Honker = {"Tarpan", "M-AX", "HONKER III"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // findViewById
+        spinner = findViewById(R.id.spinner_marka);
+        listView = findViewById(R.id.listView);
+        summary = findViewById(R.id.summary);
+        editTextRocznik = findViewById(R.id.editTextRocznik);
+        seekBar = findViewById(R.id.seekBar);
+        checkBox = findViewById(R.id.checkBox);
+        radioGroup = findViewById(R.id.radioGroup);
+        button = findViewById(R.id.button);
+
+        // Adapter do pierwszego ListView
+        listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        listView.setAdapter(listAdapter);
+
+        // Adapter do podsumowania
+        summaryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, summaryList);
+        summary.setAdapter(summaryAdapter);
+
+        // Spinner — TEN SAM SPOSÓB CO U CIEBIE
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.marka_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Spinner -> zmiana listy
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String marka = spinner.getSelectedItem().toString();
+                listAdapter.clear();
+
+                if (marka.equals("Chevrolet")) listAdapter.addAll(Chevrolet);
+                if (marka.equals("Humvee")) listAdapter.addAll(Humvee);
+                if (marka.equals("UAZ")) listAdapter.addAll(UAZ);
+                if (marka.equals("Honker")) listAdapter.addAll(Honker);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // Klik w ListView
+        listView.setOnItemClickListener((parent, view, position, id) ->
+                selectedModel = parent.getItemAtPosition(position).toString()
+        );
+
+        // SeekBar -> EditText
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                editTextRocznik.setText(String.valueOf(progress));
+            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // Button
+        button.setOnClickListener(v -> {
+
+            int radioId = radioGroup.getCheckedRadioButtonId();
+            String radioText = "";
+
+            if (radioId != -1) {
+                RadioButton rb = findViewById(radioId);
+                radioText = rb.getText().toString();
+            }
+
+            String wpis =
+                    "Marka: " + spinner.getSelectedItem().toString() +
+                    ", Model: " + selectedModel +
+                    ", Rocznik: " + editTextRocznik.getText().toString() +
+                    ", Radio: " + radioText +
+                    ", Check: " + checkBox.isChecked();
+
+            summaryList.add(wpis);
+            summaryAdapter.notifyDataSetChanged();
+
+            Toast.makeText(this, "Dodano", Toast.LENGTH_SHORT).show();
+        });
+    }
+}
